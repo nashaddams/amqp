@@ -13,10 +13,25 @@ export class AmqpFrameReader {
 
   #readBytes = async (length: number): Promise<Uint8Array> => {
     const buffer = new Uint8Array(length);
-    const n = await this.#reader.read(buffer);
+    const bytesRead = await this.#reader.read(buffer);
 
-    if (n === null) {
-      throw new FrameError("EOF");
+    if (bytesRead !== length) {
+      if (bytesRead === null) {
+        throw new FrameError("EOF");
+      }
+
+      // If we read less than expected, we need continue reading the rest of the bytes.
+      let offset = bytesRead ?? 0;
+      while (offset < length) {
+        const bytes = await this.#reader.read(buffer.subarray(offset));
+        if (bytes === null) {
+          throw new FrameError(
+            "EOF",
+            `expected ${length} bytes, got ${offset} bytes`,
+          );
+        }
+        offset += bytes;
+      }
     }
 
     return buffer;
