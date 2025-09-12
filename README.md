@@ -6,6 +6,14 @@ This is a fork of the fantastic
 [![JSR](https://jsr.io/badges/@nashaddams/amqp)](https://jsr.io/@nashaddams/amqp)
 [![main](https://github.com/nashaddams/amqp/actions/workflows/tests.yml/badge.svg)](https://github.com/nashaddams/amqp/actions)
 
+> [!WARNING]
+> Since the Deno team
+> [fixed several node:tls compatibility issues](https://github.com/denoland/deno/issues/30033)
+> with the [2.4.5](https://github.com/denoland/deno/releases/tag/v2.4.5)
+> release, [`amqplib`](https://github.com/amqp-node/amqplib) is now the
+> recommended alternative. This package is deprected. Pull requests are still
+> welcome.
+
 ## Usage
 
 ### Consuming messages
